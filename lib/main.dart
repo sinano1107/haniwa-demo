@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'pages/dev/dev_page.dart';
 import 'pages/home/home_page.dart';
+import 'pages/tag_read/tag_read_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         DevPage.id: (_) => DevPage(title: '開発ページ'),
         HomePage.id: (_) => HomePage(),
+        TagReadPage.id: (_) => TagReadPage(),
       },
     );
   }
