@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'home',
       routes: {
-        'dev': (_) => DevPage(title: '開発ページ'),
-        'home': (_) => HomePage(),
+        DevPage.id: (_) => DevPage(title: '開発ページ'),
+        HomePage.id: (_) => HomePage(),
       },
     );
   }

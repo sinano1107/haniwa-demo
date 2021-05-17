@@ -4,6 +4,8 @@ import 'dev_view_model.dart';
 import 'login_button.dart';
 
 class DevPage extends StatelessWidget {
+  static const id = 'dev';
+
   final String title;
   DevPage({@required this.title});
 
