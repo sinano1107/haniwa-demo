@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:haniwa_demo/common/firebase_dynamic_links.dart';
 import 'package:haniwa_demo/pages/sign_in/sign_in_page.dart';
 import 'package:haniwa_demo/pages/tag_read/tag_read_page.dart';
 
@@ -13,6 +14,11 @@ class HomePage extends StatelessWidget {
     } catch (e) {
       print('サインアウトに失敗しました');
     }
+  }
+
+  void createDynamicLink() async {
+    final uri = await createInviteDynamicLink(id: 'xxxxxx');
+    print(uri);
   }
 
   @override
@@ -31,6 +37,10 @@ class HomePage extends StatelessWidget {
             MaterialButton(
               child: Text('タグを読む'),
               onPressed: () => Navigator.of(context).pushNamed(TagReadPage.id),
+            ),
+            MaterialButton(
+              child: Text('DynamicLink作成'),
+              onPressed: createDynamicLink,
             ),
           ],
         ),

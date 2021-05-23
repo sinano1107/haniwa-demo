@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'pages/dev/dev_page.dart';
 import 'pages/sign_in/sign_in_page.dart';
 import 'pages/home/home_page.dart';
-import 'pages/tag_read/tag_read_page.dart';
 import 'pages/tag_info/tag_info_page.dart';
+import 'pages/tag_read/tag_read_page.dart';
+
+final _navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> navigatePage(Uri deeplink) async {
+  await _navigatorKey.currentState.pushNamed(
+    TagInfoPage.id,
+    arguments: TagInfoPageArguments(deeplink.queryParameters['id']),
+  );
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ダイナミックリンク
+  // 起動中
+  FirebaseDynamicLinks.instance.onLink(
+    onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      await navigatePage(dynamicLink?.link);
+    },
+    onError: (OnLinkErrorException e) async {
+      print('DynamiLinkエラー');
+      print(e.message);
+    },
+  );
+  // 未起動中
+  final data = await FirebaseDynamicLinks.instance.getInitialLink();
+  if (data != null) await navigatePage(data.link);
+
   runApp(MyApp());
 }
 
@@ -35,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             title: 'Flutter Demo',
+            navigatorKey: _navigatorKey,
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
