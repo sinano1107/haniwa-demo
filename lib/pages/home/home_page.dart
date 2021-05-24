@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:haniwa_demo/common/firebase_dynamic_links.dart';
 import 'package:haniwa_demo/pages/sign_in/sign_in_page.dart';
 import 'package:haniwa_demo/pages/tag_read/tag_read_page.dart';
+import 'package:haniwa_demo/pages/qr_scan/qr_scan_page.dart';
+
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatelessWidget {
   static const id = 'home';
@@ -36,7 +39,11 @@ class HomePage extends StatelessWidget {
           children: [
             MaterialButton(
               child: Text('タグを読む'),
-              onPressed: () => Navigator.of(context).pushNamed(TagReadPage.id),
+              onPressed: () => Navigator.pushNamed(context, TagReadPage.id),
+            ),
+            MaterialButton(
+              child: Text('QRスキャン'),
+              onPressed: () => qrPermissionHandler(context),
             ),
             MaterialButton(
               child: Text('DynamicLink作成'),

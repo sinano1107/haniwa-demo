@@ -345,5 +345,9 @@
 		<string>E828BD080F</string>
 		<string>F0000000030001</string>
 	</array>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>QRコードを認識するためにカメラを使用します</string>
 </dict>
 </plist>

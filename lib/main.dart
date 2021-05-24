@@ -8,6 +8,7 @@ import 'pages/sign_in/sign_in_page.dart';
 import 'pages/home/home_page.dart';
 import 'pages/tag_info/tag_info_page.dart';
 import 'pages/tag_read/tag_read_page.dart';
+import 'pages/qr_scan/qr_scan_page.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -74,6 +75,7 @@ class _MyAppState extends State<MyApp> {
               HomePage.id: (_) => HomePage(),
               TagReadPage.id: (_) => TagReadPage(),
               TagInfoPage.id: (_) => TagInfoPage(),
+              QRScanPage.id: (_) => QRScanPage(),
             },
           );
         }
