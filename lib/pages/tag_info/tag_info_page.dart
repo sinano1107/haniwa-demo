@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:haniwa_demo/common/snackbar.dart';
 import 'tag_info_view_model.dart';
+import 'components/category_selector.dart';
 
 class TagInfoPage extends StatelessWidget {
   static const id = 'tag-info';
@@ -36,19 +37,42 @@ class _TagInfoPageContentState extends State<TagInfoPageContent> {
     final TagInfoPageArguments _args =
         ModalRoute.of(context).settings.arguments;
 
+    final _future = Provider.of<TagInfoViewModel>(
+      context,
+      listen: false,
+    ).isTagCorrect(_args.groupTagId);
+
     return Scaffold(
       appBar: AppBar(title: Text('タグの情報')),
-      body: Column(
-        children: [
-          Text(_args.groupTagId + 'の情報'),
-          MaterialButton(
-            child: Text('タグを調べる'),
-            onPressed: () => Provider.of<TagInfoViewModel>(
-              context,
-              listen: false,
-            ).isTagCorrect(_args.groupTagId),
-          ),
-        ],
+      body: FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('初期化に失敗しました');
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
+              children: [
+                Text(_args.groupTagId + 'の情報'),
+                Divider(),
+                Text((Provider.of<TagInfoViewModel>(context).category == null)
+                    ? 'カテゴリーを調べるには下のボタンを押してください'
+                    : Provider.of<TagInfoViewModel>(context).category.name),
+                MaterialButton(
+                  child: Text('カテゴリーを調べる'),
+                  onPressed: Provider.of<TagInfoViewModel>(
+                    context,
+                    listen: false,
+                  ).getCategory,
+                ),
+                CategorySelector(),
+              ],
+            );
+          }
+
+          return CircularProgressIndicator();
+        },
       ),
     );
   }
